@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.7.0</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.finastra</groupId>
+	<artifactId>spring-boot-appd-otel-trace</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>spring-boot-appd-otel-trace</name>
+	<description>Demo project for Spring Boot Appd Otel</description>
+	<properties>
+		<java.version>11</java.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.logstash.logback</groupId>
+			<artifactId>logstash-logback-encoder</artifactId>
+			<version>6.6</version>
+		</dependency>
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<jvmArguments>
+						-Dappdynamics.controller.hostName=---replace-with-controller-hostname---          (ex: abc-test.saas.appdynamics.com)
+						-Dappdynamics.controller.port=---replace-with-controller-port---                  (ex: 443)
+						-Dappdynamics.agent.accountName=---replace-with-appd-account-name--               (ex: abc-test)
+						-Dappdynamics.agent.accountAccessKey=---replace-with-appd-access-key---           (ex: ca261yys-71d4-4x63-a778-sdfsfsdfsrer)
+						-Dappdynamics.controller.ssl.enabled=true
+						-Dappdynamics.agent.applicationName=SpringOtelAppdTrace
+						-Dappdynamics.agent.uniqueHostId=mylaptop
+						-Dappdynamics.agent.tierName=mytier
+						-Dappdynamics.agent.nodeName=node_1
+						-Dappdynamics.opentelemetry.enabled=true
+						-Dotel.traces.exporter=otlp
+						-Dotel.metrics.exporter=none
+						-Dotel.exporter.otlp.traces.endpoint=---replace-with-tempo-collection-url---       (ex: http://localhost:4317)
+						-Dotel.exporter.otlp.insecure=true
+						-Dotel.resource.attributes=service.name=demo-appd-otel-app,service.namespace=demo-appd-otel
+						-Dotel.propagators=tracecontext,baggage
+						-Dappagent.install.dir=---replace-with-your-appagent-install-location---           (ex: C:/appd/AppServerAgent-1.8-22.5.0.33845/ver22.5.0.33845)
+						-javaagent:---replace-with-your-javaagent-jar-location---                          (ex: C:/appd/AppServerAgent-1.8-22.5.0.33845/ver22.5.0.33845/javaagent.jar)
+					</jvmArguments>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
